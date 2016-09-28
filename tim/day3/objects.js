@@ -63,3 +63,7 @@ var movies = [
 var faveMovie = function(i) {
   console.log(movies[i].title + ' lasts for ' + movies[i].duration + 'mins and stars: ' + movies[i].stars);
 }
+
+console.log(faveMovie(0));
+console.log(faveMovie(1));
+console.log(faveMovie(2));
