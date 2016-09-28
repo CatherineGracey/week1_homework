@@ -23,3 +23,12 @@ if (menu === "fruit salad" || menu === "tofurkey") {
 } else {
   console.log("Vegans beware!")
 }
+
+// solutions
+// for (var i = 1; i <= 10; i++) {
+//   console.log(i + ' times 9 = ' + (i*9));
+//
+//   for (var j = 1; j <= 10; j++) {
+//     console.log(j + ' times ' + i + ' = ' + (i*j));
+//   }
+// }
