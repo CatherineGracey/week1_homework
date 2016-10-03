@@ -13,7 +13,7 @@ The **Sandringham** line has the following stops: Southern Cross, Richmond, Sout
 
 All 3 train lines intersect at **Richmond**, but there are NO other intersection points as trains run express.
 
-Write a JS program that works out display the journey when you give it an origin and destination.
+Write a JS program that works out and displays the journey when you give it an origin and destination.
 
 example:
 
