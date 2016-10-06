@@ -1,0 +1,43 @@
+h1 {
+  text-align: center;
+  color: darkblue;
+}
+
+.inputs {
+  max-width: 40em;
+  margin: 1% auto;
+}
+
+input {
+  border-color: green;
+  width: 20em;
+  max-width: 100%;
+}
+
+button {
+  margin: 0 auto;
+  display: block;
+}
+
+.missing:after {
+  content: "This station is unavailable.";
+}
+
+.missing {
+  border-color: red;
+  color: red;
+}
+
+.route {
+  border: 1px solid darkblue;
+  padding: 1%;
+  margin: 1%;
+}
+
+@media (min-width: 50em){
+  .route {
+    display: inline-block;
+    width: 48%;
+    box-sizing: border-box;
+  }
+}

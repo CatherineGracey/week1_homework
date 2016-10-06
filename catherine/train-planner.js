@@ -9,10 +9,10 @@
 //All 3 train lines intersect at Richmond, but there are NO other intersection points as trains run express.
 
 var network = {
-  "Alamein": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie"],
-  "Glen Waverly": ["Flagstaff", "Melbourne Central", "Parliament", "Richmond", "Kooyong", "Tooronga"],
+  "Alamein": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn", "Camberwell", "Riversdale", "Willison", "Hartwell", "Burwood", "Ashburton", "Alamein"],
+  "Glen Waverly": ["Flagstaff", "Melbourne Central", "Parliament", "Richmond", "East Richmond", "Burnley", "Heyington", "Kooyong", "Tooronga", "Gardiner", "Glen Iris", "Darling", "East Malvern", "Holmesglen", "Jordanville", "Mount Waverley", "Syndal", "Glen Waverley"],
   "Sandringham": ["Southern Cross", "Richmond", "South Yarra", "Prahran", "Windsor"]
-}
+};
 
 function checkStation(station){
   for (var line in network){
@@ -26,7 +26,8 @@ function checkStation(station){
 function calculateRoute(origin, destination){
   var route = [], second = [];
   var startLine, endLine, station1, station2, Richmond;
-
+  var plannedRoute = document.createElement("div");
+  plannedRoute.className = "route";
   //Validate the origin and destination stations
   startLine = checkStation(origin);
   while (!startLine){
@@ -38,6 +39,7 @@ function calculateRoute(origin, destination){
     destination = prompt("Please enter a valid destination station.");
     endLine = checkStation(destination);
   }
+  plannedRoute.innerHTML = "<p>Origin: " + origin + "<br>Destination: " + destination + "</p>";
 
   if (origin !== destination){
     //If the user starts at Richmond, switch them to a single line
@@ -46,52 +48,63 @@ function calculateRoute(origin, destination){
     } else if (destination === "Richmond"){
       endLine = startLine;
     }
+    plannedRoute.innerHTML += "<p>Take the " + startLine + " line.</p>";
     //Push stations to the route array
     if (startLine === endLine){
       station1 = network[startLine].indexOf(origin);
       station2 = network[endLine].indexOf(destination);
       if (station1 < station2){
-        route = network[startLine].slice(station1, (station2 + 1))
+        route = network[startLine].slice(station1, (station2 + 1));
       } else {
-        route = network[startLine].slice(station2, (station1 + 1))
+        route = network[startLine].slice(station2, (station1 + 1));
         route.reverse();
       }
+      plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
+      plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
     } else {
       station1 = network[startLine].indexOf(origin);
       Richmond = network[startLine].indexOf("Richmond");
       if (station1 < Richmond){
         route = network[startLine].slice(station1, (Richmond + 1));
       } else {
-        route = network[startLine].slice(Richmond, (station1 + 1))
+        route = network[startLine].slice(Richmond, (station1 + 1));
         route.reverse();
       }
+      plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
+      plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
       Richmond = network[endLine].indexOf("Richmond");
       station2 = network[endLine].indexOf(destination);
       route.push("CHANGE LINES");
+      plannedRoute.innerHTML += "<p>CHANGE LINES: Take the " + endLine + " line.</p>";
       if (Richmond > station2 ){
-        second = network[endLine].slice(station2, Richmond);
+        second = network[endLine].slice(station2, Richmond + 1);
         second.reverse();
       } else {
-        second = network[endLine].slice((Richmond + 1), (station2 + 1));
+        second = network[endLine].slice(Richmond, (station2 + 1));
       }
+      plannedRoute.innerHTML += "<p>" + second.join(" -----> ") + "</p>";
+      plannedRoute.innerHTML += "<p>" + (second.length - 1) + " stops total</p>";
       route = route.concat(second);
     }
-
-
   }
+  // console.log("Origin: " + origin);
+  // console.log("Destination: " + destination);
+  // console.log("");
+  // console.log(route.join(" -----> "));
+  // console.log("");
 
-  console.log("Origin: " + origin);
-  console.log("Destination: " + destination);
-  console.log("");
-  console.log(route.join(" -----> "));
-  console.log("");
-  if (route.indexOf("CHANGE LINES") === -1){
-    console.log(route.length - 1 + " stops total");
-  } else {
-    console.log(route.length - 2 + " stops total");
-    console.log("Change to " + endLine + " line at Richmond.")
-  }
-
+  // plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
+  // if (route.indexOf("CHANGE LINES") === -1){
+  //   plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
+  //   console.log(route.length - 1 + " stops total");
+  // } else {
+  //   console.log(route.length - 2 + " stops total");
+  //   plannedRoute.innerHTML += "<p>" + (route.length - 2) + " stops total</p>";
+  //   console.log("Change to " + endLine + " line at Richmond.");
+  //   plannedRoute.innerHTML += "<p>Change to " + endLine + " line at Richmond.</p>";
+  // }
+  var routes = document.getElementById("routes")
+  routes.insertBefore(plannedRoute, routes.firstChild);
 }
 
 /*
@@ -179,8 +192,31 @@ Melbourne Central -----> Parliament -----> Richmond
 //The key to the lab is the intersection of the lines at Richmond.
 
 //Non-Required Bonus:
-
 // input validation
 // User must enter a line and station in the subway network
 // If the user enters something else, your program should handle it
 // Add additional lines
+
+function displayRoute(){
+  var start = document.getElementById("start");
+  var origin = start.value;
+  if (checkStation(origin)){
+    start.className = "";
+  } else {
+    start.className = "missing";
+  }
+  var end = document.getElementById("end");
+  var destination = end.value;
+  if (checkStation(destination)){
+    end.className = "";
+  } else {
+    end.className = "missing";
+  }
+  if (checkStation(origin) && checkStation(destination)){
+    calculateRoute(origin, destination);
+  }
+}
+
+window.onload = function(){
+  document.getElementById("show").addEventListener("click", displayRoute);
+};
