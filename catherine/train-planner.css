@@ -1,6 +1,12 @@
 h1 {
   text-align: center;
-  color: darkblue;
+  color: #F68974;
+  font-size: 2.5rem;
+  line-height: 1.5;
+}
+
+img {
+  max-width: 60%;
 }
 
 .inputs {
@@ -19,17 +25,13 @@ button {
   display: block;
 }
 
-.missing:after {
-  content: "This station is unavailable.";
-}
-
 .missing {
   border-color: red;
   color: red;
 }
 
 .route {
-  border: 1px solid darkblue;
+  border: 1px solid #F68974;
   padding: 1%;
   margin: 1%;
 }
