@@ -9,9 +9,41 @@
 //All 3 train lines intersect at Richmond, but there are NO other intersection points as trains run express.
 
 var network = {
-  "Alamein": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn", "Camberwell", "Riversdale", "Willison", "Hartwell", "Burwood", "Ashburton", "Alamein"],
-  "Glen Waverly": ["Flagstaff", "Melbourne Central", "Parliament", "Richmond", "East Richmond", "Burnley", "Heyington", "Kooyong", "Tooronga", "Gardiner", "Glen Iris", "Darling", "East Malvern", "Holmesglen", "Jordanville", "Mount Waverley", "Syndal", "Glen Waverley"],
-  "Sandringham": ["Southern Cross", "Richmond", "South Yarra", "Prahran", "Windsor"]
+  "Alamein": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+              "Camberwell", "Riversdale", "Willison", "Hartwell", "Burwood", "Ashburton", "Alamein"],
+  "Belgrave": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+              "Camberwell", "East Camberwell", "Canterbury", "Chatham", "Surry Hills", "Mont Albert",
+              "Box Hill", "Laburnum", "Blackburn", "Nunawading", "Mitcham", "Heatherdale", "Ringwood",
+              "Heathmont", "Bayswater", "Boronia", "Ferntree Gully", "Upper Ferntree Gully", "Upwey",
+              "Tecoma", "Belgrave"],
+  //"Cragieburn": ["Flinders Street", "Southern Cross", "North Melbourne", "Kensington", "Newmarket", "Ascot Vale", "Moonee Ponds", "Essendon", "Glenbervie", "Strathmore", "Pascoe Vale", "Oak Park", "Glenroy", "Jacana", "Broadmeadows", "Coolaroo", "Roxburgh Park", "Cragieburn"],
+  "Cranbourne": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "South Yarra", "Hawksburn", "Toorak", "Armadale", "Malvern", "Caulfield",
+              "Carnegie", "Murrumbeena", "Hughesdale", "Oakleigh", "Huntingdale", "Clayton", "Westall",
+              "Springvale", "Sandown Park", "Noble Park", "Yarraman", "Dandenong", "Lynbrook",
+              "Merinda Park", "Cranbourne"],
+  "Frankston": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "South Yarra", "Hawksburn", "Toorak", "Armadale", "Malvern", "Caulfield",
+              "Glenhuntly", "Ormond", "McKinnon", "Bentleigh", "Patterson", "Moorabbin", "Highett",
+              "Cheltenham", "Mentone", "Parkdale", "Mordialloc", "Aspendale", "Edithvale", "Chelsea",
+              "Bonbeach", "Carrum", "Seaford", "Kananook", "Frankston", "Leawarra", "Baxter",
+              "Somerville", "Tyabb", "Hastings", "Bittern", "Morradoo", "Crib Point", "Stony Point"],
+  "Glen Waverly": ["Flagstaff", "Melbourne Central", "Parliament", "Richmond", "East Richmond", "Burnley",
+              "Heyington", "Kooyong", "Tooronga", "Gardiner", "Glen Iris", "Darling", "East Malvern",
+              "Holmesglen", "Jordanville", "Mount Waverley", "Syndal", "Glen Waverley"],
+  //"Hurstbridge": [],
+  "Lilydale": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+              "Camberwell", "East Camberwell", "Canterbury", "Chatham", "Surry Hills", "Mont Albert",
+              "Box Hill", "Laburnum", "Blackburn", "Nunawading", "Mitcham", "Heatherdale", "Ringwood",
+              "Ringwood East", "Croydon", "Mooroolbark", "Lilydale"],
+  "Pakenham": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "South Yarra", "Hawksburn", "Toorak", "Armadale", "Malvern", "Caulfield",
+              "Carnegie", "Murrumbeena", "Hughesdale", "Oakleigh", "Huntingdale", "Clayton", "Westall",
+              "Springvale", "Sandown Park", "Noble Park", "Yarraman", "Dandenong", "Hallam",
+              "Narre Warren", "Berwick", "Beaconsfield", "Officer", "Cardinia Road", "Pakenham"],
+  "Sandringham": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "South Yarra", "Prahran", "Windsor", "Balaclava", "Ripponlea", "Elsternwick",
+              "Gardenvale", "North Brighton", "Middle Brighton", "Brighton Beach", "Hampton", "Sandringham"]
 };
 
 function checkStation(station){
@@ -42,10 +74,10 @@ function calculateRoute(origin, destination){
   plannedRoute.innerHTML = "<p>Origin: " + origin + "<br>Destination: " + destination + "</p>";
 
   if (origin !== destination){
-    //If the user starts at Richmond, switch them to a single line
-    if (origin === "Richmond"){
+    //If all stations are on the same track, switch them to a single line
+    if (network[endLine].indexOf(origin) > -1){
       startLine = endLine;
-    } else if (destination === "Richmond"){
+    } else if (network[startLine].indexOf(destination) > -1){
       endLine = startLine;
     }
     plannedRoute.innerHTML += "<p>Take the " + startLine + " line.</p>";
@@ -59,9 +91,10 @@ function calculateRoute(origin, destination){
         route = network[startLine].slice(station2, (station1 + 1));
         route.reverse();
       }
+      //Add route directions to the route element,
       plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
       plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
-    } else {
+    } else {//Change of line is required
       station1 = network[startLine].indexOf(origin);
       Richmond = network[startLine].indexOf("Richmond");
       if (station1 < Richmond){
@@ -69,40 +102,44 @@ function calculateRoute(origin, destination){
       } else {
         route = network[startLine].slice(Richmond, (station1 + 1));
         route.reverse();
+        var routeFlipped = true;
       }
-      plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
-      plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
       Richmond = network[endLine].indexOf("Richmond");
       station2 = network[endLine].indexOf(destination);
-      route.push("CHANGE LINES");
-      plannedRoute.innerHTML += "<p>CHANGE LINES: Take the " + endLine + " line.</p>";
       if (Richmond > station2 ){
         second = network[endLine].slice(station2, Richmond + 1);
         second.reverse();
+        var secondFlipped = true;
       } else {
         second = network[endLine].slice(Richmond, (station2 + 1));
       }
+      //Is route flipped? Currently crops the wrong end of a flipped route.
+      for(var i = 0; i < route.length; i++){
+        var overlap = second.indexOf(route[i]);
+        if (overlap > -1){
+          route = route.slice(0, i + 1);
+          second = second.slice(overlap);
+          // if (true){
+          //   route = route.slice(0, i + 1);
+          // } else {
+          //   route = route.slice(i);
+          // }
+          // console.log(second);
+          // if (false){
+          //   second = second.slice(0, overlap + 2);
+          // } else {
+          //   second = second.slice(overlap);
+          // }
+        }
+      }
+      //Add route directions to the route element,
+      plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
+      plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
+      plannedRoute.innerHTML += "<p>CHANGE LINES: Take the " + endLine + " line.</p>";
       plannedRoute.innerHTML += "<p>" + second.join(" -----> ") + "</p>";
       plannedRoute.innerHTML += "<p>" + (second.length - 1) + " stops total</p>";
-      route = route.concat(second);
     }
   }
-  // console.log("Origin: " + origin);
-  // console.log("Destination: " + destination);
-  // console.log("");
-  // console.log(route.join(" -----> "));
-  // console.log("");
-
-  // plannedRoute.innerHTML += "<p>" + route.join(" -----> ") + "</p>";
-  // if (route.indexOf("CHANGE LINES") === -1){
-  //   plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
-  //   console.log(route.length - 1 + " stops total");
-  // } else {
-  //   console.log(route.length - 2 + " stops total");
-  //   plannedRoute.innerHTML += "<p>" + (route.length - 2) + " stops total</p>";
-  //   console.log("Change to " + endLine + " line at Richmond.");
-  //   plannedRoute.innerHTML += "<p>Change to " + endLine + " line at Richmond.</p>";
-  // }
   var routes = document.getElementById("routes")
   routes.insertBefore(plannedRoute, routes.firstChild);
 }
