@@ -9,14 +9,19 @@
 //All 3 train lines intersect at Richmond, but there are NO other intersection points as trains run express.
 
 var network = {
-  "Alamein": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+  "Alamein": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
               "Camberwell", "Riversdale", "Willison", "Hartwell", "Burwood", "Ashburton", "Alamein"],
-  "Belgrave": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+  "Belgrave": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
               "Camberwell", "East Camberwell", "Canterbury", "Chatham", "Surry Hills", "Mont Albert",
               "Box Hill", "Laburnum", "Blackburn", "Nunawading", "Mitcham", "Heatherdale", "Ringwood",
               "Heathmont", "Bayswater", "Boronia", "Ferntree Gully", "Upper Ferntree Gully", "Upwey",
               "Tecoma", "Belgrave"],
-  //"Cragieburn": ["Flinders Street", "Southern Cross", "North Melbourne", "Kensington", "Newmarket", "Ascot Vale", "Moonee Ponds", "Essendon", "Glenbervie", "Strathmore", "Pascoe Vale", "Oak Park", "Glenroy", "Jacana", "Broadmeadows", "Coolaroo", "Roxburgh Park", "Cragieburn"],
+  "Cragieburn": ["Flagstaff", "Melbourne Central", "Parliament", "Flinders Street", "Southern Cross",
+              "North Melbourne", "Kensington", "Newmarket", "Ascot Vale", "Moonee Ponds", "Essendon",
+              "Glenbervie", "Strathmore", "Pascoe Vale", "Oak Park", "Glenroy", "Jacana", "Broadmeadows",
+              "Coolaroo", "Roxburgh Park", "Cragieburn"],
   "Cranbourne": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
               "Richmond", "South Yarra", "Hawksburn", "Toorak", "Armadale", "Malvern", "Caulfield",
               "Carnegie", "Murrumbeena", "Hughesdale", "Oakleigh", "Huntingdale", "Clayton", "Westall",
@@ -28,11 +33,17 @@ var network = {
               "Cheltenham", "Mentone", "Parkdale", "Mordialloc", "Aspendale", "Edithvale", "Chelsea",
               "Bonbeach", "Carrum", "Seaford", "Kananook", "Frankston", "Leawarra", "Baxter",
               "Somerville", "Tyabb", "Hastings", "Bittern", "Morradoo", "Crib Point", "Stony Point"],
-  "Glen Waverly": ["Flagstaff", "Melbourne Central", "Parliament", "Richmond", "East Richmond", "Burnley",
-              "Heyington", "Kooyong", "Tooronga", "Gardiner", "Glen Iris", "Darling", "East Malvern",
-              "Holmesglen", "Jordanville", "Mount Waverley", "Syndal", "Glen Waverley"],
-  //"Hurstbridge": [],
-  "Lilydale": ["Flinders Street", "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
+  "Glen Waverly": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "East Richmond", "Burnley", "Heyington", "Kooyong", "Tooronga", "Gardiner",
+              "Glen Iris", "Darling", "East Malvern", "Holmesglen", "Jordanville", "Mount Waverley",
+              "Syndal", "Glen Waverley"],
+  "Hurstbridge": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Jolimont", "West Richmond", "North Richmond", "Collingwood", "Victoria Park", "Clifton Hill",
+              "Westgarth", "Dennis", "Fairfield", "Alphington", "Darebin", "Ivanhoe", "Eaglemont",
+              "Heidelburg", "Rosanna", "Macleod", "Watsonia", "Greensborough", "Montmorency", "Eltham",
+              "Diamond Creek", "Wattle Glen", "Hurstbridge"],
+  "Lilydale": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Richmond", "East Richmond", "Burnley", "Hawthorn", "Glenferrie", "Auburn",
               "Camberwell", "East Camberwell", "Canterbury", "Chatham", "Surry Hills", "Mont Albert",
               "Box Hill", "Laburnum", "Blackburn", "Nunawading", "Mitcham", "Heatherdale", "Ringwood",
               "Ringwood East", "Croydon", "Mooroolbark", "Lilydale"],
@@ -43,7 +54,25 @@ var network = {
               "Narre Warren", "Berwick", "Beaconsfield", "Officer", "Cardinia Road", "Pakenham"],
   "Sandringham": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
               "Richmond", "South Yarra", "Prahran", "Windsor", "Balaclava", "Ripponlea", "Elsternwick",
-              "Gardenvale", "North Brighton", "Middle Brighton", "Brighton Beach", "Hampton", "Sandringham"]
+              "Gardenvale", "North Brighton", "Middle Brighton", "Brighton Beach", "Hampton", "Sandringham"],
+  "South Morang": ["Flinders Street", "Southern Cross", "Flagstaff", "Melbourne Central", "Parliament",
+              "Jolimont", "West Richmond", "North Richmond", "Collingwood", "Victoria Park", "Clifton Hill",
+              "Rushall", "Merri", "Northcote", "Croxton", "Thornbury", "Bell", "Preston", "Regent",
+              "Reservoir", "Ruthven", "Keon Park", "Thomastown", "Lalor", "Epping", "South Morang"],
+  "Sunbury": ["Southern Cross", "Flinders Street", "Parliament Station", "Melbourne Central",
+              "Flagstaff Station", "North Melbourne", "Footscray", "Middle Footscray", "West Footscray",
+              "Tottenham", "Sunshine", "Albion Station", "Ginifer", "St Albans", "Keilor Plains",
+              "Watergardens", "Diggers Rest", "Sunbury"],
+  "Upfield": ["Southern Cross", "Flinders Street", "Parliament", "Melbourne Central", "Flagstaff",
+              "North Melbourne", "Macaulay", "Flemington Bridge", "Royal Park", "Jewell", "Brunswick",
+              "Anstey", "Moreland", "Coburg", "Batman", "Merlynston", "Fawkner", "Gowrie", "Upfield"],
+  "Werribee": ["Southern Cross", "Flinders Street", "Parliament", "Melbourne Central", "Flagstaff",
+              "North Melbourne", "South Kensington", "Footscray", "Seddon", "Yarraville", "Spotswood",
+              "Newport", "Seaholme", "Altona", "Westona", "Laverton", "Aircraft", "Williams Landing",
+              "Hoppers Crossing", "Werribee"],
+  "Williamstown": ["Southern Cross", "Flinders Street", "Parliament", "Melbourne Central", "Flagstaff",
+              "North Melbourne", "South Kensington", "Footscray", "Seddon", "Yarraville", "Spotswood",
+              "Newport", "North Williamstown", "Williamstown Beach", "Williamstown"]
 };
 
 function checkStation(station){
@@ -57,7 +86,7 @@ function checkStation(station){
 
 function calculateRoute(origin, destination){
   var route = [], second = [];
-  var startLine, endLine, station1, station2, Richmond;
+  var startLine, endLine, station1, station2, Flinders;
   var plannedRoute = document.createElement("div");
   plannedRoute.className = "route";
   //Validate the origin and destination stations
@@ -96,22 +125,22 @@ function calculateRoute(origin, destination){
       plannedRoute.innerHTML += "<p>" + (route.length - 1) + " stops total</p>";
     } else {//Change of line is required
       station1 = network[startLine].indexOf(origin);
-      Richmond = network[startLine].indexOf("Richmond");
-      if (station1 < Richmond){
-        route = network[startLine].slice(station1, (Richmond + 1));
+      Flinders = network[startLine].indexOf("Flinders Street");
+      if (station1 < Flinders){
+        route = network[startLine].slice(station1, (Flinders + 1));
       } else {
-        route = network[startLine].slice(Richmond, (station1 + 1));
+        route = network[startLine].slice(Flinders, (station1 + 1));
         route.reverse();
         var routeFlipped = true;
       }
-      Richmond = network[endLine].indexOf("Richmond");
+      Flinders = network[endLine].indexOf("Flinders Street");
       station2 = network[endLine].indexOf(destination);
-      if (Richmond > station2 ){
-        second = network[endLine].slice(station2, Richmond + 1);
+      if (Flinders > station2 ){
+        second = network[endLine].slice(station2, Flinders + 1);
         second.reverse();
         var secondFlipped = true;
       } else {
-        second = network[endLine].slice(Richmond, (station2 + 1));
+        second = network[endLine].slice(Flinders, (station2 + 1));
       }
       //Is route flipped? Currently crops the wrong end of a flipped route.
       for(var i = 0; i < route.length; i++){
@@ -119,17 +148,6 @@ function calculateRoute(origin, destination){
         if (overlap > -1){
           route = route.slice(0, i + 1);
           second = second.slice(overlap);
-          // if (true){
-          //   route = route.slice(0, i + 1);
-          // } else {
-          //   route = route.slice(i);
-          // }
-          // console.log(second);
-          // if (false){
-          //   second = second.slice(0, overlap + 2);
-          // } else {
-          //   second = second.slice(overlap);
-          // }
         }
       }
       //Add route directions to the route element,
