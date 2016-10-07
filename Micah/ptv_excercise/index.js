@@ -23,7 +23,7 @@ console.log('destination: ' + destinationPrompt);
 
 // If the Origin station is before the destination based on the order of the train line..
 if (origin < destination) {
-  // Creates the a new array with only the stations from the origin to the destination.
+  // Creates a new array with only the stations from the origin to the destination.
   var output = alameinLine.slice(origin, (destination+1));
   // Logs in the console all the train stops the user will travel, with a arrow in between each station.
   console.log(output.join(' ----> '));
@@ -53,9 +53,6 @@ else {
 
 
 
-
-
-
 // var glenWaverlyLine =
 // [
 //   'Flagstaff',
@@ -70,7 +67,8 @@ else {
 // [
 //   'Southern Cross',
 //   'Richmond',
-//   'South Yarra', 'Prahran',
+//   'South Yarra',
+//   'Prahran',
 //   'Windsor'
 // ];
 
